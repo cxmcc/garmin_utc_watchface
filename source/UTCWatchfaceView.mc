@@ -16,8 +16,6 @@ class UTCWatchfaceView extends Ui.WatchFace {
     //! Load your resources here
     function onLayout(dc) {
         setLayout(Rez.Layouts.WatchFace(dc));
-        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
-        dc.fillRectangle(0,0,dc.getWidth(), dc.getHeight());
     }
 
     //! Called when this View is brought to the foreground. Restore
@@ -28,7 +26,6 @@ class UTCWatchfaceView extends Ui.WatchFace {
     
     function clearScreen(dc) {
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
-        
         dc.fillRectangle(0,0,dc.getWidth(), dc.getHeight());
     }
     
@@ -79,7 +76,7 @@ class UTCWatchfaceView extends Ui.WatchFace {
 	    info = Calendar.info(utcTime, Time.FORMAT_SHORT);
 	    var utcDateStr = Lang.format("UTC+0\n$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]);
 	
-		var batteryWidth = w*50;
+		var batteryWidth = w*55;
 		if (!lowPower) {
 			batteryWidth = w*38;
 		    dc.drawText(w*70, h*8, Gfx.FONT_MEDIUM, localClock.sec.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER);
