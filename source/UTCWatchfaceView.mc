@@ -37,7 +37,7 @@ class UTCWatchfaceView extends Ui.WatchFace {
             dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
         }
         var batteryStr = Lang.format("$1$%", [stats.battery.format("%d")]);
-        dc.drawText(x, y, Gfx.FONT_MEDIUM, batteryStr, Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y, Gfx.FONT_MEDIUM, batteryStr, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
     }
 
@@ -58,8 +58,8 @@ class UTCWatchfaceView extends Ui.WatchFace {
 	
 	    var width = dc.getWidth();
 	    var height = dc.getHeight();
-	    var w = width/100;
-	    var h = height/100;
+	    var w = width/100.0;
+	    var h = height/100.0;
 	
 	    clearScreen(dc);
 	    dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
@@ -76,19 +76,20 @@ class UTCWatchfaceView extends Ui.WatchFace {
 	    info = Calendar.info(utcTime, Time.FORMAT_SHORT);
 	    var utcDateStr = Lang.format("UTC+0\n$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]);
 	
-		var batteryWidth = w*55;
+		var batteryWidth = w*50;
+		var batteryHeight = h*8;
 		if (!lowPower) {
 			batteryWidth = w*38;
-		    dc.drawText(w*70, h*8, Gfx.FONT_MEDIUM, localClock.sec.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER);
+		    dc.drawText(w*70, batteryHeight, Gfx.FONT_MEDIUM, localClock.sec.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
 		}
-		drawBattery(dc, batteryWidth, h*8);
+		drawBattery(dc, batteryWidth, batteryHeight);
 		
-	    dc.drawText(w*60, h*33, Gfx.FONT_NUMBER_HOT, localTimeStr, Gfx.TEXT_JUSTIFY_RIGHT);
-	    dc.drawText(w*60, h*88, Gfx.FONT_NUMBER_HOT, utcTimeStr, Gfx.TEXT_JUSTIFY_RIGHT);
+	    dc.drawText(w*55, h*32, Gfx.FONT_NUMBER_HOT, localTimeStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
+	    dc.drawText(w*55, h*62, Gfx.FONT_NUMBER_HOT, utcTimeStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
 	    
 	    dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
-	    dc.drawText(w*64, h*43, Gfx.FONT_XTINY, localDateStr, Gfx.TEXT_JUSTIFY_LEFT);
-	    dc.drawText(w*64, h*100, Gfx.FONT_XTINY, utcDateStr, Gfx.TEXT_JUSTIFY_LEFT);
+	    dc.drawText(w*58, h*33, Gfx.FONT_XTINY, localDateStr, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+	    dc.drawText(w*58, h*63, Gfx.FONT_XTINY, utcDateStr, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 
     }
 
