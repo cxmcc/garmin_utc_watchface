@@ -23,6 +23,7 @@ class UTCWatchfaceView extends Ui.WatchFace {
     //! loading resources into memory.
     function onShow() {
         lowPower = false;
+        requestUpdate();
     }
     
     function clearScreen(dc) {
@@ -102,11 +103,13 @@ class UTCWatchfaceView extends Ui.WatchFace {
     //! The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() {
         lowPower = false;
+        requestUpdate();
     }
 
     //! Terminate any active timers and prepare for slow updates.
     function onEnterSleep() {
         lowPower = true;
+        requestUpdate();
     }
 
 }
