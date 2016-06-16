@@ -39,7 +39,10 @@ class UTCWatchfaceView extends Ui.WatchFace {
             dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
         }
         var batteryStr = Lang.format("$1$%", [stats.battery.format("%d")]);
-        dc.drawText(x, y, Gfx.FONT_MEDIUM, batteryStr, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(
+            x, y, Gfx.FONT_MEDIUM, batteryStr,
+            Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+        );
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
     }
 
@@ -66,29 +69,56 @@ class UTCWatchfaceView extends Ui.WatchFace {
         clearScreen(dc);
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 
-        var localTimeStr = Lang.format("$1$:$2$", [localClock.hour.format("%02d"), localClock.min.format("%02d")]);
+        var localTimeStr = Lang.format(
+            "$1$:$2$",
+            [localClock.hour.format("%02d"), localClock.min.format("%02d")]
+        );
         var info = Calendar.info(localTime, Time.FORMAT_SHORT);
         var offsetStr = Lang.format("$1$", [offset]);
         if (offset == 0) {
             offsetStr = "+0";
         }
-        var localDateStr = Lang.format("UTC$1$\n$2$/$3$/$4$", [offset, info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]);
+        var localDateStr = Lang.format(
+            "UTC$1$\n$2$/$3$/$4$",
+            [offset, info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]
+        );
 
-        var utcTimeStr = Lang.format("$1$:$2$", [utcHour.format("%02d"), localClock.min.format("%02d")]);
+        var utcTimeStr = Lang.format(
+            "$1$:$2$",
+            [utcHour.format("%02d"), localClock.min.format("%02d")]
+        );
         info = Calendar.info(utcTime, Time.FORMAT_SHORT);
-        var utcDateStr = Lang.format("UTC+0\n$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]);
+        var utcDateStr = Lang.format(
+            "UTC+0\n$1$/$2$/$3$",
+            [info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]
+        );
 
         if (!lowPower) {
-            dc.drawText(w*50, h*89, Gfx.FONT_LARGE, localClock.sec.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(
+                w*50, h*89, Gfx.FONT_MEDIUM, localClock.sec.format("%02d"),
+                Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+            );
         }
         drawBattery(dc, w*50, h*11);
 
-        dc.drawText(w*56, h*34, Gfx.FONT_NUMBER_HOT, localTimeStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
-        dc.drawText(w*56, h*64, Gfx.FONT_NUMBER_HOT, utcTimeStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(
+            w*56, h*34, Gfx.FONT_NUMBER_HOT, localTimeStr,
+            Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER
+        );
+        dc.drawText(
+            w*56, h*64, Gfx.FONT_NUMBER_HOT, utcTimeStr,
+            Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER
+        );
 
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
-        dc.drawText(w*59, h*35, Gfx.FONT_XTINY, localDateStr, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-        dc.drawText(w*59, h*65, Gfx.FONT_XTINY, utcDateStr, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(
+            w*59, h*35, Gfx.FONT_XTINY, localDateStr,
+            Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER
+        );
+        dc.drawText(
+            w*59, h*65, Gfx.FONT_XTINY, utcDateStr,
+            Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER
+        );
     }
 
     //! Called when this View is removed from the screen. Save the
