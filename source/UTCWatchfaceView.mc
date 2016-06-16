@@ -78,13 +78,10 @@ class UTCWatchfaceView extends Ui.WatchFace {
         info = Calendar.info(utcTime, Time.FORMAT_SHORT);
         var utcDateStr = Lang.format("UTC+0\n$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]);
 
-        var batteryWidth = w*50;
-        var batteryHeight = h*11;
         if (!lowPower) {
-            batteryWidth = w*30;
-            dc.drawText(w*70, batteryHeight, Gfx.FONT_MEDIUM, localClock.sec.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(w*50, h*89, Gfx.FONT_LARGE, localClock.sec.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
         }
-        drawBattery(dc, batteryWidth, batteryHeight);
+        drawBattery(dc, w*50, h*11);
 
         dc.drawText(w*56, h*34, Gfx.FONT_NUMBER_HOT, localTimeStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
         dc.drawText(w*56, h*64, Gfx.FONT_NUMBER_HOT, utcTimeStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
