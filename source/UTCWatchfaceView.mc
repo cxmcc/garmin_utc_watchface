@@ -50,7 +50,7 @@ class InsaneClock {
         var info = Calendar.info(localTime, Time.FORMAT_SHORT);
         return Lang.format(
             "UTC$1$\n$2$/$3$/$4$",
-            [offset,
+            [offsetStr,
              info.month.format("%02d"),
              info.day.format("%02d"),
              info.year.format("%02d")]
