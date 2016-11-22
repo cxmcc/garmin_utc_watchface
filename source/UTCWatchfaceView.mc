@@ -22,12 +22,11 @@ class InsaneClock {
         localTime = Time.now();
         localClock = Sys.getClockTime();
 
-
         var offsetSec = Sys.getClockTime().timeZoneOffset;
         offset = offsetSec / 3600;
 
         utcTime = localTime.add(new Time.Duration(-offsetSec));
-        utcHour = (localClock.hour - offset) % 24;
+        utcHour = (localClock.hour - offset + 24) % 24;
         utcMin = localClock.min;
     }
 
