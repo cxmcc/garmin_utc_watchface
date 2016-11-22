@@ -14,12 +14,12 @@ class InsaneTime {
     var second;
 
     function initialize() {
-        year = 0;
-        month = 0;
-        day = 0;
-        hour = 0;
-        minute = 0;
-        second = 0;
+        year = 9999;
+        month = 99;
+        day = 99;
+        hour = 99;
+        minute = 99;
+        second = 99;
     }
 }
 
@@ -42,29 +42,29 @@ class InsaneClock {
         var offsetSec = localClock.timeZoneOffset;
         offset = offsetSec / 3600;
 
-        utcTimeNow = localTimeNow.add(new Time.Duration(-offsetSec));
-
-        /* Local */
         var localCalInfo = Calendar.info(localTimeNow, Time.FORMAT_SHORT);
+        var utcTimeNow = localTimeNow.add(new Time.Duration(-offsetSec));
+        var utcCalInfo = Calendar.info(utcTimeNow, Time.FORMAT_SHORT);
+        
+        // Local
         localTime.year = localCalInfo.year;
         localTime.month = localCalInfo.month;
         localTime.day = localCalInfo.day;
         localTime.hour = localClock.hour;
         localTime.minute = localClock.min;
         localTime.second = localClock.sec;
-
-        /* UTC */
-        var utcCalInfo = Calendar.info(utcTimeNow, Time.FORMAT_SHORT);
+        
+        // UTC
         utcTime.year = utcCalInfo.year;
         utcTime.month = utcCalInfo.month;
         utcTime.day = utcCalInfo.day;
         utcTime.hour = (localClock.hour - offset + 24) % 24;
         utcTime.minute = localClock.min;
-        utcTime.second = localClock.sec;
+        utcTime.second = localClock.sec;   
     }
 
     function second() {
-        return localTime.second;
+        return utcTime.second;
     }
 
     function generateTimeStr(time) {
