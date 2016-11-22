@@ -5,70 +5,106 @@ using Toybox.Lang as Lang;
 using Toybox.Time as Time;
 using Toybox.Time.Gregorian as Calendar;
 
-class InsaneClock {
-    var localTime;
-    var localClock;
-    var localTimeInfo;
-    var offset;
-    var utcTime;
-    var utcHour;
-    var utcMin;
+class InsaneTime {
+    var year;
+    var month;
+    var day;
+    var hour;
+    var minute;
+    var second;
 
     function initialize() {
+        year = 0;
+        month = 0;
+        day = 0;
+        hour = 0;
+        minute = 0;
+        second = 0;
+    }
+}
+
+class InsaneClock {
+    hidden var offset;
+    hidden var localTime;
+    hidden var utcTime;
+
+    function initialize() {
+        localTime = new InsaneTime();
+        utcTime = new InsaneTime();
+        offset = 0;
         refresh();
     }
 
     function refresh() {
-        localTime = Time.now();
-        localClock = Sys.getClockTime();
+        var localTimeNow = Time.now();
+        var localClock = Sys.getClockTime();
 
         var offsetSec = localClock.timeZoneOffset;
         offset = offsetSec / 3600;
 
-        utcTime = localTime.add(new Time.Duration(-offsetSec));
-        utcHour = (localClock.hour - offset + 24) % 24;
-        utcMin = localClock.min;
+        utcTimeNow = localTimeNow.add(new Time.Duration(-offsetSec));
+
+        /* Local */
+        var localCalInfo = Calendar.info(localTimeNow, Time.FORMAT_SHORT);
+        localTime.year = localCalInfo.year;
+        localTime.month = localCalInfo.month;
+        localTime.day = localCalInfo.day;
+        localTime.hour = localClock.hour;
+        localTime.minute = localClock.min;
+        localTime.second = localClock.sec;
+
+        /* UTC */
+        var utcCalInfo = Calendar.info(utcTimeNow, Time.FORMAT_SHORT);
+        utcTime.year = utcCalInfo.year;
+        utcTime.month = utcCalInfo.month;
+        utcTime.day = utcCalInfo.day;
+        utcTime.hour = (localClock.hour - offset + 24) % 24;
+        utcTime.minute = localClock.min;
+        utcTime.second = localClock.sec;
     }
 
     function second() {
-        return localClock.sec;
+        return localTime.second;
+    }
+
+    function generateTimeStr(time) {
+        return Lang.format(
+            "$1$:$2$",
+            [time.hour.format("%02d"),
+             time.minute.format("%02d")]
+        );
     }
 
     function localTimeStr() {
+        return generateTimeStr(localTime);
+    }
+
+    function utcTimeStr() {
+        return generateTimeStr(utcTime);
+    }
+
+    function generateDateStr(offset, time) {
+        var offsetStr = "";
+        if (offset >= 0) {
+            offsetStr = Lang.format("+$1$", [offset]);
+        } else {
+            offsetStr = Lang.format("$1$", [offset]);
+        }
         return Lang.format(
-            "$1$:$2$",
-            [localClock.hour.format("%02d"), localClock.min.format("%02d")]
+            "UTC$1$\n$2$/$3$/$4$",
+            [offsetStr,
+             time.month.format("%02d"),
+             time.day.format("%02d"),
+             time.year.format("%02d")]
         );
     }
 
     function localDateStr() {
-        var offsetStr = Lang.format("$1$", [offset]);
-        if (offset >= 0) {
-            offsetStr = Lang.format("+$1$", [offset]);
-        }
-        var info = Calendar.info(localTime, Time.FORMAT_SHORT);
-        return Lang.format(
-            "UTC$1$\n$2$/$3$/$4$",
-            [offsetStr,
-             info.month.format("%02d"),
-             info.day.format("%02d"),
-             info.year.format("%02d")]
-        );
-    }
-
-    function utcTimeStr() {
-        return Lang.format(
-            "$1$:$2$",
-            [utcHour.format("%02d"), localClock.min.format("%02d")]
-        );
+        return generateDateStr(offset, localTime);
     }
 
     function utcDateStr() {
-        var info = Calendar.info(utcTime, Time.FORMAT_SHORT);
-        return Lang.format(
-            "UTC+0\n$1$/$2$/$3$",
-            [info.month.format("%02d"), info.day.format("%02d"), info.year.format("%02d")]
-        );
+        return generateDateStr(0, utcTime);
     }
 }
 
