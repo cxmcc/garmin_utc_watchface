@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.Lang as Lang;
+using Toybox.Application as App;
 using Toybox.Time as Time;
 using Toybox.Time.Gregorian as Calendar;
 
@@ -90,8 +91,14 @@ class InsaneClock {
         } else {
             offsetStr = Lang.format("$1$", [offset]);
         }
+        var dateFormat = App.getApp().getProperty("PropertyDateFormat");
+        var choices = {
+            0=>"$2$/$3$/$4$",
+            1=>"$3$/$2$/$4$",
+            2=>"$4$/$2$/$3$"
+        };
         return Lang.format(
-            "UTC$1$\n$2$/$3$/$4$",
+            "UTC$1$\n" + choices[dateFormat],
             [offsetStr,
              time.month.format("%02d"),
              time.day.format("%02d"),

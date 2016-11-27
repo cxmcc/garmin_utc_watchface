@@ -1,0 +1,13 @@
+<settings>
+    <setting propertyKey="@Properties.appVersion" title="@Strings.SettingAppVersionTitle">
+        <settingConfig type="alphaNumeric" readonly="true" />
+    </setting>
+    <setting propertyKey="@Properties.PropertyDateFormat" title="@Strings.SettingDateFormatTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.SettingDateFormatMMDDYYYY</listEntry>
+            <listEntry value="1">@Strings.SettingDateFormatDDMMYYYY</listEntry>
+            <listEntry value="2">@Strings.SettingDateFormatYYYYMMDD</listEntry>
+        </settingConfig>
+    </setting>
+
+</settings>

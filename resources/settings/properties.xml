@@ -1,0 +1,4 @@
+<properties>
+	<property id="appVersion" type="string">0.11</property>
+    <property id="PropertyDateFormat" type="number">0</property>
+</properties>
